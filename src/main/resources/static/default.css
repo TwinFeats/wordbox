@@ -150,8 +150,8 @@ button {
 
 #endgame {
 	display: none;
-	grid-template-columns: max-content max-content max-content max-content;
-	gap: .2em 1ch;
+	/* grid-template-columns: max-content max-content max-content max-content;
+	gap: .2em 1ch; */
 	box-sizing: border-box;
 	padding: .5em;
 	z-index: 2;
@@ -164,13 +164,18 @@ button {
 	background-color: black;
 	color: #ffff80;
 	font-size: 25pt;
+	flex-wrap: wrap;
+}
+
+#endgame > * {
+	margin-left: 2ch;
 }
 
 #gamenumber {
 	position: absolute;
 	top: 0;
 	left: 1em;
-	font-size: 18pt;
+	font-size: 21pt;
 }
 .found {
 	font-weight: bold;
@@ -178,7 +183,7 @@ button {
 }
 
 .visible {
-	display: grid !important;
+	display: flex !important;
 }
 
 @media screen and (orientation: portrait) {

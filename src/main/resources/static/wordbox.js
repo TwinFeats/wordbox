@@ -11,7 +11,7 @@ var gameover = false;
 var seed = 0;
 var total = 0;
 
-function init() {
+function init(gameseed) {
 	gameover = false;
 	word = "";
 	solution = {};
@@ -20,37 +20,38 @@ function init() {
 	lastcube = null;
 	foundWords = [];
 	playing = false;
-	seed = 0;
 	total = 0;
 	document.querySelector("#timer").innerHTML = "5:00";
 	document.querySelector("#words").innerHTML = "";
 	var totalhtml = document.getElementById("total");
 	totalhtml.innerHTML = total;
-	var loc = window.location.href;
-	var idx = loc.lastIndexOf("game=");
-	if (idx > 0) {
-		seed = parseInt(loc.substring(idx+5));
-	} else {
-		seed = Math.floor(rnd.inRange(0, 1000000000));
+	if (!gameseed) {
+		var loc = window.location.href;
+		var idx = loc.lastIndexOf("game=");
+		if (idx > 0) {
+			gameseed = parseInt(loc.substring(idx+5));
+		}
 	}
-	rnd = new Srand(seed);
-	if (idx < 0) {
+	if (gameseed) {
+		seed = gameseed;
+		rnd = new Srand(seed);
 		history.replaceState(null, 'Wordbox Redux', 'https://twinfeats.com/wordbox?game='+seed);
+		var cubes = document.querySelectorAll("#board > *");
+		for (var i = 0; i < cubes.length; i++) {
+			var r = Math.floor(i / 5);
+			var c = i % 5;
+			var cube = cubes[i];
+			cube.dataset.row = r;
+			cube.dataset.col = c;
+		}
+		genPuzzle();
+		solve();
+		wordlist = Object.keys(solution);
+		wordlist.sort((w1, w2) => w2.length - w1.length);
+		document.getElementById("gamenumber").innerHTML = seed;
+		document.getElementById("pausebutton").innerHTML = "Pause";
+		pause();
 	}
-	var cubes = document.querySelectorAll("#board > *");
-	for (var i = 0; i < cubes.length; i++) {
-		var r = Math.floor(i / 5);
-		var c = i % 5;
-		var cube = cubes[i];
-		cube.dataset.row = r;
-		cube.dataset.col = c;
-	}
-	genPuzzle();
-	solve();
-	wordlist = Object.keys(solution);
-	wordlist.sort((w1, w2) => w2.length - w1.length);
-	document.getElementById("gamenumber").innerHTML = seed;
-	document.getElementById("pausebutton").innerHTML = "Pause";
 }
 
 function hide(event) {
@@ -60,7 +61,7 @@ function hide(event) {
 }	
 
 function unpause(event) {
-	if (event.touches.length == 1) {
+	if (event.touches.length == 2) {
 		var pause = document.querySelector("#pause");
 		pause.classList.add("hidden");
 		playing = true;
@@ -81,10 +82,12 @@ function pause() {
 
 function newgame() {
 	pause();
-	var game = 'https://twinfeats.com/wordbox?game='+Math.floor(rnd.inRange(0, 1000000000));
+	rnd = new Srand();
+	seed = Math.floor(rnd.inRange(0, 1000000000));
+	var game = 'https://twinfeats.com/wordbox?game='+seed;
 	navigator.clipboard.writeText(game);
 	history.replaceState(null, 'Wordbox Redux', game);
-	init();
+	init(seed);
 }
 
 function startdrag(event) {
@@ -319,7 +322,7 @@ function gameOver() {
 		} else {
 			text += "<div>";
 		}
-		text += wordlist[i]+"</div><div>"+Math.pow(2, wordlist[i].length-4)+"</div>";
+		text += wordlist[i]+" "+Math.pow(2, wordlist[i].length-4)+"</div>";
 	}
 	list.innerHTML = text;
 	document.getElementById("endgame").classList.add("visible");
