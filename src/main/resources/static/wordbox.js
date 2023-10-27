@@ -1,18 +1,22 @@
+const MIN_LEN = 4;
 var word = "";
 var solution = {};
+var wordlist = [];
 var letters = "";
 var rnd = new Srand();
 var lastcube = null;
 var foundWords = [];
 var playing = false;
+var gameover = false;
 var seed = 0;
 var total = 0;
 
 function init() {
+	gameover = false;
 	word = "";
 	solution = {};
+	wordlist = [];
 	letters = "";
-	rnd = new Srand();
 	lastcube = null;
 	foundWords = [];
 	playing = false;
@@ -27,11 +31,11 @@ function init() {
 	if (idx > 0) {
 		seed = parseInt(loc.substring(idx+5));
 	} else {
-		seed = Math.floor(rnd.inRange(0, 10000000));
+		seed = Math.floor(rnd.inRange(0, 1000000000));
 	}
 	rnd = new Srand(seed);
 	if (idx < 0) {
-		history.replaceState(null, 'Wordbox Redux', 'http://twinfeats.com/wordbox?game='+seed);
+		history.replaceState(null, 'Wordbox Redux', 'https://twinfeats.com/wordbox?game='+seed);
 	}
 	var cubes = document.querySelectorAll("#board > *");
 	for (var i = 0; i < cubes.length; i++) {
@@ -43,7 +47,17 @@ function init() {
 	}
 	genPuzzle();
 	solve();
+	wordlist = Object.keys(solution);
+	wordlist.sort((w1, w2) => w2.length - w1.length);
+	document.getElementById("gamenumber").innerHTML = seed;
+	document.getElementById("pausebutton").innerHTML = "Pause";
 }
+
+function hide(event) {
+	if (event.touches.length == 2) {
+		document.getElementById("endgame").classList.remove("visible");
+	}
+}	
 
 function unpause(event) {
 	if (event.touches.length == 1) {
@@ -56,14 +70,20 @@ function unpause(event) {
 }
 
 function pause() {
-	playing = false;
-	var pause = document.querySelector("#pause");
-	pause.classList.remove("hidden");
+	if (!gameover) {
+		playing = false;
+		var pause = document.querySelector("#pause");
+		pause.classList.remove("hidden");
+	} else {
+		document.getElementById("endgame").classList.add("visible");
+	}
 }
 
 function newgame() {
 	pause();
-	history.replaceState(null, 'Wordbox Redux', 'http://twinfeats.com/wordbox');
+	var game = 'https://twinfeats.com/wordbox?game='+Math.floor(rnd.inRange(0, 1000000000));
+	navigator.clipboard.writeText(game);
+	history.replaceState(null, 'Wordbox Redux', game);
 	init();
 }
 
@@ -105,7 +125,7 @@ function stopdrag(event) {
 	for (var i = 0; i < cubes.length; i++) {
 		cubes[i].classList.remove('hilite');
 	}
-	if (word.length >= 3) {
+	if (word.length >= MIN_LEN) {
 		if (!foundWords.includes(word)) {
 			if (words.includes(word.toLowerCase())) {
 				foundWords.push(word);
@@ -145,8 +165,8 @@ function findCube(x, y) {
 	var cubes = document.querySelectorAll("#board > *");
 	for (var i = 0; i < cubes.length; i++) {
 		var cube = cubes[i];
-		var w = cube.clientWidth / 5;
-		var h = cube.clientHeight / 5;
+		var w = cube.clientWidth / 6;
+		var h = cube.clientHeight / 6;
 		if (x >= cube.offsetLeft + w && x < cube.offsetLeft + cube.clientWidth - w) {
 			if (y >= cube.offsetTop + h && y < cube.offsetTop + cube.clientHeight - h) {
 				return cube;
@@ -157,7 +177,7 @@ function findCube(x, y) {
 }
 
 function scoreWord() {
-	var score = Math.pow(2, word.length - 3);
+	var score = Math.pow(2, word.length - MIN_LEN);
 	var w = document.querySelector("#word");
 	w.innerHTML = word + " " + score;
 	return score;
@@ -182,9 +202,7 @@ function genPuzzle() {
 		var letter = Math.floor(rnd.inRange(0, cletters.length));
 		var theletter = cletters.charAt(letter);
 		letters += theletter;
-		for (let v of cubeelements[i].classList.values()) {
-			cubeelements[i].classList.remove(v);
-		}
+		cubeelements[i].removeAttribute('class');
 		cubeelements[i].classList.add(theletter);
 		if (theletter == 'Q') theletter += "u"
 		cubeelements[i].innerHTML = theletter;
@@ -219,7 +237,7 @@ function solve() {
 	ch = null;
 	for (var n = 0; n < words.length; n++) {
 		var w = words[n].toUpperCase();
-		if (w.length >= 3 && !solution[w]) {
+		if (w.length >= MIN_LEN	 && !solution[w]) {
 			var cr = w.charAt(0);
 			if (ch == null || ch != cr) {
 				ch = cr;
@@ -292,6 +310,20 @@ function processCube(cubes, r, c, word, idx) {
 
 function gameOver() {
 	playing = false;
+	gameover = true;
+	var list = document.getElementById("endgame");
+	var text = "";
+	for (i=0; i < wordlist.length; i++) {
+		if (foundWords.includes(wordlist[i])) {
+			text += "<div class='found'>";
+		} else {
+			text += "<div>";
+		}
+		text += wordlist[i]+"</div><div>"+Math.pow(2, wordlist[i].length-4)+"</div>";
+	}
+	list.innerHTML = text;
+	document.getElementById("endgame").classList.add("visible");
+	document.getElementById("pausebutton").innerHTML = "Words";
 }
 
 function startTimer() {
