@@ -10,6 +10,7 @@ var playing = false;
 var gameover = false;
 var seed = 0;
 var total = 0;
+var time = 300;
 
 function init(gameseed) {
 	gameover = false;
@@ -21,7 +22,8 @@ function init(gameseed) {
 	foundWords = [];
 	playing = false;
 	total = 0;
-	document.querySelector("#timer").innerHTML = "5:00";
+	time = 300;
+	document.querySelector("#timer").innerHTML = convertTime();
 	document.querySelector("#words").innerHTML = "";
 	var totalhtml = document.getElementById("total");
 	totalhtml.innerHTML = total;
@@ -333,21 +335,25 @@ function gameOver() {
 
 function startTimer() {
 	if (!playing) return;
-	var presentTime = document.getElementById('timer').innerHTML;
-	var timeArray = presentTime.split(/[:]+/);
-	var m = parseInt(timeArray[0]);
-	var s = checkSecond((parseInt(timeArray[1]) - 1));
-	if (s == 59) { m = m - 1 }
-	if (m < 0) {
+	time -= 1;
+	if (time < 0) {
 		gameOver();
 		return;
 	}
 
-	document.getElementById('timer').innerHTML =
-		m + ":" + zeroPadLeft(s);
+	document.getElementById('timer').innerHTML = convertTime();
 	setTimeout(startTimer, 1000);
-
 }
+
+function convertTime() {
+	var m = ""+Math.floor(time / 60);
+	var s = time % 60;
+	if (s < 10) {
+		s = "0" + s;
+	}
+	return m+":"+s
+}
+
 
 function checkSecond(sec) {
 	if (sec < 0) { sec = 59 };
