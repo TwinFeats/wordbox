@@ -26,9 +26,9 @@ function init(gameseed) {
 	var totalhtml = document.getElementById("total");
 	totalhtml.innerHTML = total;
 	if (!gameseed) {
-		var loc = window.location.href;
+		var loc = window.location.search;
 		var idx = loc.lastIndexOf("game=");
-		if (idx > 0) {
+		if (idx >= 0) {
 			gameseed = parseInt(loc.substring(idx+5));
 		}
 	}
@@ -81,6 +81,7 @@ function pause() {
 }
 
 function newgame() {
+	gameover = false;
 	pause();
 	rnd = new Srand();
 	seed = Math.floor(rnd.inRange(0, 1000000000));
@@ -205,7 +206,8 @@ function genPuzzle() {
 		var letter = Math.floor(rnd.inRange(0, cletters.length));
 		var theletter = cletters.charAt(letter);
 		letters += theletter;
-		cubeelements[i].removeAttribute('class');
+		cubeelements[i].className = '';
+		cubeelements[i].parentElement.className = '';
 		cubeelements[i].classList.add(theletter);
 		if (theletter == 'Q') theletter += "u"
 		cubeelements[i].innerHTML = theletter;
@@ -333,8 +335,8 @@ function startTimer() {
 	if (!playing) return;
 	var presentTime = document.getElementById('timer').innerHTML;
 	var timeArray = presentTime.split(/[:]+/);
-	var m = timeArray[0];
-	var s = checkSecond((timeArray[1] - 1));
+	var m = parseInt(timeArray[0]);
+	var s = checkSecond((parseInt(timeArray[1]) - 1));
 	if (s == 59) { m = m - 1 }
 	if (m < 0) {
 		gameOver();
@@ -342,15 +344,21 @@ function startTimer() {
 	}
 
 	document.getElementById('timer').innerHTML =
-		m + ":" + s;
+		m + ":" + zeroPadLeft(s);
 	setTimeout(startTimer, 1000);
 
 }
 
 function checkSecond(sec) {
-	if (sec < 10 && sec >= 0) { sec = "0" + sec }; // add zero in front of numbers < 10
-	if (sec < 0) { sec = "59" };
+	if (sec < 0) { sec = 59 };
 	return sec;
+}
+
+function zeroPadLeft(sec) {
+	if (sec < 10 && sec >= 0) {
+		sec = "0" + sec; // add zero in front of numbers < 10
+	}
+	return ""+sec;
 }
 
 class Cube {
