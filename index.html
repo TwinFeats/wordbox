@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>WordBox Redux</title>
+		<script src="words.js"></script>
+		<script src="jsrand.min.js"></script>
+		<script src="wordbox.js?v=1.6"></script>
+		<link rel="stylesheet" href="default.css?v=1.5">
+	</head>
+	<body>
+		<div id="gamenumber"></div>
+		<div id="game">
+			<div id="board" ontouchstart="startdrag(event)" ontouchmove="dragging(event)" ontouchend="stopdrag(event)" ontouchcancel="canceldrag(event)">
+				<div><span>W</span></div>
+				<div><span>O</span></div>
+				<div><span>R</span></div>
+				<div><span>D</span></div>
+				<div><span> </span></div>
+				<div><span>B</span></div>
+				<div><span>O</span></div>
+				<div><span>X</span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+				<div><span></span></div>
+			</div>
+			<div id="timeline"><div><span id="total">0</span> <span id="timer">5:00</span>
+				<button id="pausebutton" type="button" onclick="pause()">Pause</button>
+				<div class="row">
+					<button id="board5" type="button" onclick="updateBoardSize(5)">5x5</button>
+					<button id="board6" type="button" onclick="updateBoardSize(6)">6x6</button>
+					<button id="newgame" type="button" onclick="newgame()">New game</button></div><div id="word"></div></div>
+				</div>
+			<div id="words"></div>
+		</div>
+		<div class="hidden" id="pause" ontouchstart="unpause(event)"><div>Two-finger tap to unpause</div></div>
+		<div id="endgame" ontouchstart="hide(event)"></div>
+		<script>
+			init();
+		</script>
+	</body>
+</html>
