@@ -1,4 +1,4 @@
-const MIN_LEN = 4;
+var minLen = 4;
 var word = "";
 var solution = {};
 var wordlist = [];
@@ -44,9 +44,11 @@ function init(gameseed) {
 
 	if (options.size == 6) {
 		time = 360000;
+		minLen = 5;
 		document.getElementById("board5").classList.remove("selected");
 		document.getElementById("board6").classList.add("selected");
 	} else {
+		minLen = 4;
 		document.getElementById("board5").classList.add("selected");
 		document.getElementById("board6").classList.remove("selected");
 	}
@@ -140,7 +142,7 @@ function startdrag(event) {
 	if (cube && !cube.classList.contains("hilite")) {
 		lastcube = cube;
 		cube.classList.add("hilite");
-		word = cube.children[0].textContent;
+		word = cube.children[0].textContent.toUpperCase();
 		updateWord();
 	}
 }
@@ -154,7 +156,7 @@ function dragging(event) {
 	if (cube.dataset.row == lastcube.dataset.row && cube.dataset.col == lastcube.dataset.col) return;
 	if (isAdjacent(cube) && !cube.classList.contains("hilite")) {
 		cube.classList.add("hilite");
-		word += cube.children[0].textContent;
+		word += cube.children[0].textContent.toUpperCase();
 		updateWord();
 		lastcube = cube;
 	}
@@ -171,7 +173,7 @@ function stopdrag(event) {
 	for (var i = 0; i < cubes.length; i++) {
 		cubes[i].classList.remove('hilite');
 	}
-	if (word.length >= MIN_LEN) {
+	if (word.length >= minLen) {
 		if (!foundWords.includes(word)) {
 			if (words.includes(word.toLowerCase())) {
 				foundWords.push(word);
@@ -223,7 +225,7 @@ function findCube(x, y) {
 }
 
 function scoreWord() {
-	var score = Math.pow(2, word.length - MIN_LEN);
+	var score = Math.pow(2, word.length - minLen);
 	var w = document.querySelector("#word");
 	w.innerHTML = word + " " + score;
 	return score;
@@ -290,7 +292,7 @@ function solve() {
 	ch = null;
 	for (var n = 0; n < words.length; n++) {
 		var w = words[n].toUpperCase();
-		if (w.length >= MIN_LEN	 && !solution[w]) {
+		if (w.length >= minLen	 && !solution[w]) {
 			var cr = w.charAt(0);
 			if (ch == null || ch != cr) {
 				ch = cr;
