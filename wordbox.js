@@ -225,7 +225,7 @@ function findCube(x, y) {
 }
 
 function scoreWord() {
-	var score = Math.pow(2, word.length - minLen);
+	var score = Math.pow(2, word.length - 4);
 	var w = document.querySelector("#word");
 	w.innerHTML = word + " " + score;
 	return score;
