@@ -4,13 +4,13 @@
 		<title>WordBox Redux</title>
 		<script src="words.js"></script>
 		<script src="jsrand.min.js"></script>
-		<script src="wordbox.js?v=1.8.1"></script>
-		<link rel="stylesheet" href="default.css?v=1.5">
+		<script src="wordbox.js?v=1.8.9"></script>
+		<link rel="stylesheet" href="default.css?v=1.5.11">
 	</head>
 	<body>
 		<div id="gamenumber"></div>
 		<div id="game">
-			<div id="board" ontouchstart="startdrag(event)" ontouchmove="dragging(event)" ontouchend="stopdrag(event)" ontouchcancel="canceldrag(event)">
+			<div id="board" onpointerdown="startdrag(event)" onpointermove="dragging(event)" onpointerup="stopdrag(event)" onpointercancel="canceldrag(event)">
 				<div><span>W</span></div>
 				<div><span>O</span></div>
 				<div><span>R</span></div>
@@ -46,8 +46,14 @@
 				</div>
 			<div id="words"></div>
 		</div>
-		<div class="hidden" id="pause" ontouchstart="unpause(event)"><div>Two-finger tap to unpause</div></div>
-		<div id="endgame" ontouchstart="hide(event)"></div>
+		<div class="hidden" id="pause" onpointerdown="unpause(event)"><div>Tap anywhere to unpause</div></div>
+		<div id="endgame" onpointerdown="hide(event)"></div>
+	    <audio id="goodPlay">
+	      <source src="audio/xylophone.mp3"/>
+	    </audio>
+	    <audio id="badPlay">
+	      <source src="audio/alarmbeep.mp3"/>
+	    </audio>
 		<script>
 			init();
 		</script>

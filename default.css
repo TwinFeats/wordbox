@@ -11,15 +11,18 @@ body {
 	background-color: black;
 	color: white;
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	padding-left: 35%;
+	padding-right: 35%;
 }
+
 
 #game {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 }
 
 #word, #timeline, button {
-	font-size: 34pt;
+	font-size: 18pt;
 	text-align: center;
 	min-height: 1em;;
 }
@@ -87,25 +90,23 @@ button {
 }
 
 #board {
-	height: 100vh;
-	padding: 5vh;
+	width: 100%;
+	padding-top: 1em;
+	padding-bottom: 1em;
 	box-sizing: border-box;
 	position: relative;
 	display: grid;
 	grid-template-columns: repeat(5, 20%);
-	grid-template-rows: repeat(5, 20%);
-	aspect-ratio: 1 / 1;
 	grid-gap: 0;
+	touch-action: none;
 }
 
 .board5 {
 	grid-template-columns: repeat(5, 20%);
-	grid-template-rows: repeat(5, 20%);
 }
 
 .board6 {
 	grid-template-columns: repeat(6, 16.66%) !important;
-	grid-template-rows: repeat(6, 16.66%) !important;
 }
 
 #board > * {
@@ -113,16 +114,12 @@ button {
 	border-radius: .2em;
 	box-sizing: border-box;
 	color: white;
-	font-size: 10vh;
+	font-size: calc(30vw / 6 / 2);
 	border: .1em outset;	
 	position: relative;
 
 	background-color: #4169e1;	
 	border-color: #5179f1;
-}
-
-.board6 > * {
-	font-size: 9vh !important;
 }
 
 #board span {
@@ -213,8 +210,8 @@ button {
 }
 
 @media screen and (orientation: portrait) {
-	#game {
-		flex-direction: column;
+	body {
+		padding: 0;
 	}
 
 	#board {
@@ -223,11 +220,13 @@ button {
 		padding: 5vw;
 	}
 
-	#board > * {
-		font-size: 10vw;
+	#word, #timeline, button {
+		font-size: 34pt;
 	}
 
-	.board6 > * {
-		font-size: 8vw !important;
+	#board > * {
+		font-size: calc(12vw * .4);
 	}
+
+
 }

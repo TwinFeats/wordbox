@@ -15,8 +15,18 @@ var lasttime = 0;
 var options = {
 	size: 5
 }
+var goodPlay;
+var badPlay;
+
+function updateGame() {
+	var game = 'https://www.twinfeats.com/wordbox/?game='+options.size+""+seed;
+	history.replaceState(null, 'Wordbox Redux', game);
+	navigator.clipboard.writeText(game);
+}
 
 function init(gameseed) {
+	goodPlay = document.getElementById("goodPlay");
+	badPlay = document.getElementById("badPlay");
 	lasttime = 0;
 	gameover = false;
 	word = "";
@@ -55,9 +65,7 @@ function init(gameseed) {
 	if (gameseed) {
 		seed = gameseed;
 		rnd = new Srand(seed);
-		history.replaceState(null, 'Wordbox Redux', 'https://twinfeats.com/wordbox?game='+options.size+""+seed);
-
-		console.log(options.size);
+		updateGame();
 		var b = document.getElementById("board");
 		var html = "";
 		for (var i=0;i<options.size*options.size;i++) {
@@ -87,9 +95,7 @@ function init(gameseed) {
 }
 
 function hide(event) {
-	if (event.touches.length == 2) {
-		document.getElementById("endgame").classList.remove("visible");
-	}
+	document.getElementById("endgame").classList.remove("visible");
 }	
 
 function updateBoardSize(size) {
@@ -104,13 +110,11 @@ function updateBoardSize(size) {
 }
 
 function unpause(event) {
-	if (event.touches.length == 2) {
-		var pause = document.querySelector("#pause");
-		pause.classList.add("hidden");
-		playing = true;
-		lasttime = new Date().getTime();
-		startTimer();
-	}
+	var pause = document.querySelector("#pause");
+	pause.classList.add("hidden");
+	playing = true;
+	lasttime = new Date().getTime();
+	startTimer();
 	event.preventDefault();
 }
 
@@ -129,16 +133,14 @@ function newgame() {
 	pause();
 	rnd = new Srand();
 	seed = Math.floor(rnd.inRange(0, 1000000000));
-	var game = 'https://twinfeats.com/wordbox?game='+options.size+""+seed;
-	navigator.clipboard.writeText(game);
-	history.replaceState(null, 'Wordbox Redux', game);
 	init(seed);
 }
 
 function startdrag(event) {
 	event.preventDefault();
+	event.target.releasePointerCapture(event.pointerId);
 	if (!playing) return;
-	var cube = findCube(event.touches[0].clientX, event.touches[0].clientY);
+	var cube = findCube(event.pageX, event.pageY);
 	if (cube && !cube.classList.contains("hilite")) {
 		lastcube = cube;
 		cube.classList.add("hilite");
@@ -149,9 +151,10 @@ function startdrag(event) {
 
 function dragging(event) {
 	event.preventDefault();
+	event.target.releasePointerCapture(event.pointerId);
 	if (!playing) return;
 	if (!lastcube) return;
-	var cube = findCube(event.touches[0].clientX, event.touches[0].clientY);
+	var cube = findCube(event.pageX, event.pageY);
 	if (!cube) return;
 	if (cube.dataset.row == lastcube.dataset.row && cube.dataset.col == lastcube.dataset.col) return;
 	if (isAdjacent(cube) && !cube.classList.contains("hilite")) {
@@ -176,6 +179,7 @@ function stopdrag(event) {
 	if (word.length >= minLen) {
 		if (!foundWords.includes(word)) {
 			if (words.includes(word.toLowerCase())) {
+				goodPlay.play();
 				foundWords.push(word);
 				var score = scoreWord();
 				total += score;
@@ -184,14 +188,17 @@ function stopdrag(event) {
 				var totalhtml = document.getElementById("total");
 				totalhtml.innerHTML = total;
 			} else {
+				badPlay.play();
 				var w = document.querySelector("#word");
 				w.innerHTML = word + " 0";
 			}
 		} else {
+			badPlay.play();
 			var w = document.querySelector("#word");
 			w.innerHTML = word + " dup";
 		}
 	} else {
+		badPlay.play();
 		var w = document.querySelector("#word");
 		w.innerHTML = word + " 0";
 	}
