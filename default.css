@@ -45,6 +45,7 @@ body {
 }
 
 button {
+	margin-top: .5em;
 	margin-left: 2ch;
 	height: 1.5em;
 	border-radius: .25em;
@@ -151,6 +152,11 @@ button {
 	transform: translate(-50%, -50%) rotate(270deg) !important;
 }
 
+/* must be last! */
+.orientation0 {
+	transform: translate(-50%, -50%) rotate(0deg) !important;
+}
+
 #pause {
 	font-size: 40pt;
 	position: fixed;
@@ -209,6 +215,11 @@ button {
 	display: flex !important;
 }
 
+button:disabled {
+	background-color: darkgray;
+	border: gray;
+}
+
 @media screen and (orientation: portrait) {
 	body {
 		padding: 0;
@@ -225,7 +236,11 @@ button {
 	}
 
 	#board > * {
-		font-size: calc(12vw * .4);
+		font-size: calc(90vw / 5 / 2);
+	}
+
+	#board.board6 > * {
+		font-size: calc(90vw / 6 / 2);
 	}
 
 

@@ -13,10 +13,12 @@ var total = 0;
 var time = 300000;
 var lasttime = 0;
 var options = {
-	size: 5
+	size: 5,
+	random: true
 }
 var goodPlay;
 var badPlay;
+var isMobile = navigator.maxTouchPoints > 1;
 
 function updateGame() {
 	var game = 'https://www.twinfeats.com/wordbox/?game='+options.size+""+seed;
@@ -25,6 +27,11 @@ function updateGame() {
 }
 
 function init(gameseed) {
+	if (isMobile) {
+		document.getElementById("pause").firstElementChild.innerHTML = "Two-finger tap to unpause";
+	} else {
+		document.getElementById("pause").firstElementChild.innerHTML = "Click to unpause";
+	}
 	goodPlay = document.getElementById("goodPlay");
 	badPlay = document.getElementById("badPlay");
 	lasttime = 0;
@@ -49,6 +56,8 @@ function init(gameseed) {
 		if (idx >= 0) {
 			gameseed = parseInt(loc.substring(idx+6));
 			options.size = parseInt(loc.substring(idx+5, idx+6));
+		} else {
+			updateBoardSize(5);
 		}
 	}
 
@@ -94,8 +103,24 @@ function init(gameseed) {
 	}
 }
 
+function updateBoardStraight() {
+	options.random = !options.random;
+	document.getElementById("straight").innerHTML = options.random ? "Straight" : "Random";
+	var cubeelements = document.querySelectorAll("#board > * > span");
+	var i = 0;
+	for (var i = 0; i < cubeelements.length; i++) {
+		if (options.random) {
+			cubeelements[i].classList.remove("orientation0");
+		} else {
+			cubeelements[i].classList.add("orientation0");
+		}
+	}
+}
+
 function hide(event) {
-	document.getElementById("endgame").classList.remove("visible");
+	if (!isMobile || !event.isPrimary) {
+		document.getElementById("endgame").classList.remove("visible");
+	}
 }	
 
 function updateBoardSize(size) {
@@ -110,11 +135,14 @@ function updateBoardSize(size) {
 }
 
 function unpause(event) {
-	var pause = document.querySelector("#pause");
-	pause.classList.add("hidden");
-	playing = true;
-	lasttime = new Date().getTime();
-	startTimer();
+	if (!isMobile || !event.isPrimary) {
+		var pause = document.querySelector("#pause");
+		pause.classList.add("hidden");
+		playing = true;
+		lasttime = new Date().getTime();
+		startTimer();
+		document.getElementById("newgame").disabled = true;
+	}
 	event.preventDefault();
 }
 
