@@ -21,7 +21,7 @@ var badPlay;
 var isMobile = navigator.maxTouchPoints > 1;
 
 function updateGame() {
-	var game = 'https://www.twinfeats.com/wordbox/?game='+options.size+""+seed;
+	var game = 'https://www.twinfeats.com/wordbox/?game=' + options.size + "" + seed;
 	history.replaceState(null, 'Wordbox Redux', game);
 	navigator.clipboard.writeText(game);
 }
@@ -54,8 +54,8 @@ function init(gameseed) {
 		var loc = window.location.search;
 		var idx = loc.lastIndexOf("game=");
 		if (idx >= 0) {
-			gameseed = parseInt(loc.substring(idx+6));
-			options.size = parseInt(loc.substring(idx+5, idx+6));
+			gameseed = parseInt(loc.substring(idx + 6));
+			options.size = parseInt(loc.substring(idx + 5, idx + 6));
 		} else {
 			updateBoardSize(5);
 		}
@@ -77,7 +77,7 @@ function init(gameseed) {
 		updateGame();
 		var b = document.getElementById("board");
 		var html = "";
-		for (var i=0;i<options.size*options.size;i++) {
+		for (var i = 0; i < options.size * options.size; i++) {
 			html += '<div><span></span></div>';
 		}
 		b.innerHTML = html;
@@ -121,7 +121,7 @@ function hide(event) {
 	if (!isMobile || !event.isPrimary) {
 		document.getElementById("endgame").classList.remove("visible");
 	}
-}	
+}
 
 function updateBoardSize(size) {
 	options.size = size;
@@ -141,7 +141,6 @@ function unpause(event) {
 		playing = true;
 		lasttime = new Date().getTime();
 		startTimer();
-		document.getElementById("newgame").disabled = true;
 	}
 	event.preventDefault();
 }
@@ -156,8 +155,24 @@ function pause() {
 	}
 }
 
+function doNewGame() {
+	closeConfirm();
+	playing = false;
+	newgame();
+}
+
+function closeConfirm() {
+	document.getElementById('confirm').classList.remove('show');
+}
+
 function newgame() {
+	if (playing) {
+		pause();
+		document.getElementById('confirm').classList.add('show');
+		return;
+	}
 	gameover = false;
+	playing = false;
 	pause();
 	rnd = new Srand();
 	seed = Math.floor(rnd.inRange(0, 1000000000));
@@ -327,7 +342,7 @@ function solve() {
 	ch = null;
 	for (var n = 0; n < words.length; n++) {
 		var w = words[n].toUpperCase();
-		if (w.length >= minLen	 && !solution[w]) {
+		if (w.length >= minLen && !solution[w]) {
 			var cr = w.charAt(0);
 			if (ch == null || ch != cr) {
 				ch = cr;
@@ -390,18 +405,17 @@ function processCube(cubes, r, c, word, idx) {
 }
 
 function gameOver() {
-	document.getElementById("newgame").disabled = false;
 	playing = false;
 	gameover = true;
 	var list = document.getElementById("endgame");
 	var text = "";
-	for (i=0; i < wordlist.length; i++) {
+	for (i = 0; i < wordlist.length; i++) {
 		if (foundWords.includes(wordlist[i])) {
 			text += "<div class='found'>";
 		} else {
 			text += "<div>";
 		}
-		text += wordlist[i]+" "+Math.pow(2, wordlist[i].length-4)+"</div>";
+		text += wordlist[i] + " " + Math.pow(2, wordlist[i].length - 4) + "</div>";
 	}
 	list.innerHTML = text;
 	document.getElementById("endgame").classList.add("visible");
@@ -425,12 +439,12 @@ function startTimer() {
 
 function convertTime() {
 	var secs = Math.floor(time / 1000);
-	var m = ""+Math.floor(secs / 60);
+	var m = "" + Math.floor(secs / 60);
 	var s = secs % 60;
 	if (s < 10) {
 		s = "0" + s;
 	}
-	return m+":"+s
+	return m + ":" + s
 }
 
 
@@ -443,7 +457,7 @@ function zeroPadLeft(sec) {
 	if (sec < 10 && sec >= 0) {
 		sec = "0" + sec; // add zero in front of numbers < 10
 	}
-	return ""+sec;
+	return "" + sec;
 }
 
 class Cube {

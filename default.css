@@ -4,6 +4,7 @@
 
 html, body {
 	overscroll-behavior: none;
+	font-size: 18pt;
  }
 
 body {
@@ -157,9 +158,34 @@ button {
 	transform: translate(-50%, -50%) rotate(0deg) !important;
 }
 
+#confirm {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: black;
+	color: white;
+	text-align: center;
+	z-index: 10;
+}
+
+#confirm button {
+	margin-left: 1ch;
+	margin-right: 1ch;
+}
+
+.show {
+	display: flex !important;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 #pause {
 	font-size: 40pt;
-	position: fixed;
+	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -221,6 +247,10 @@ button:disabled {
 }
 
 @media screen and (orientation: portrait) {
+	html, body {
+		font-size: 34pt;
+	}
+
 	body {
 		padding: 0;
 	}
