@@ -21,8 +21,8 @@ var badPlay;
 var isMobile = navigator.maxTouchPoints > 1;
 
 function updateGame() {
-	var game = 'https://www.twinfeats.com/wordbox/?game=' + options.size + "" + seed;
-	history.replaceState(null, 'Wordbox Redux', game);
+	var game = '/wordbox/?game=' + options.size + "" + seed;
+	history.replaceState(null, 'Wordbox Redux', "https://kidjuice.com"+game);
 	navigator.clipboard.writeText(game);
 }
 
