@@ -22,8 +22,8 @@ var isMobile = navigator.maxTouchPoints > 1;
 
 function updateGame() {
 	var game = '/wordbox/?game=' + options.size + "" + seed;
-	history.replaceState(null, 'Wordbox Redux', "https://kidjuice.com"+game);
-	navigator.clipboard.writeText(game);
+	history.replaceState(null, 'Wordbox Redux', game);
+	navigator.clipboard.writeText("https://kidjuice.com"+game);
 }
 
 function init(gameseed) {
