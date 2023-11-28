@@ -122,6 +122,8 @@ button {
 
 	background-color: #4169e1;	
 	border-color: #5179f1;
+
+	pointer-events: none;
 }
 
 #board span {
