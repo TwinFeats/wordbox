@@ -227,6 +227,7 @@ function stopdrag(event) {
 		if (!foundWords.includes(word)) {
 			if (words.includes(word.toLowerCase())) {
 				playGood();
+				blink(4, "goodword");
 				foundWords.push(word);
 				var score = scoreWord();
 				total += score;
@@ -236,16 +237,19 @@ function stopdrag(event) {
 				totalhtml.innerHTML = total;
 			} else {
 				playBad();
+				blink(4, "badword");
 				var w = document.querySelector("#word");
 				w.innerHTML = word + " 0";
 			}
 		} else {
 			playBadDup();
+			blink(4, "dupword");
 			var w = document.querySelector("#word");
 			w.innerHTML = word + " dup";
 		}
 	} else {
 		playBad();
+		blink(4, "badword");
 		var w = document.querySelector("#word");
 		w.innerHTML = word + " 0";
 	}
@@ -258,22 +262,22 @@ function blink(count, cssClass) {
         if (--count > 0) {
             blink(count, cssClass);
         }
-    }, 250);
+    }, 125);
 }
 
 function playGood() {
 	goodPlay.play();
-	blink(3, "goodword");
+	// blink(4, "goodword");
 }
 
 function playBad() {
 	badPlay.play();
-	blink(3, "badword");
+	// blink(4, "badword");
 }
 
 function playBadDup() {
 	badPlay.play();
-	blink(3, "dupword");
+	// blink(4, "dupword");
 }
 
 function canceldrag(event) {
