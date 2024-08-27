@@ -103,6 +103,18 @@ button {
 	touch-action: none;
 }
 
+#board.goodword {
+	background-color: lightgreen;
+}
+
+#board.badword {
+	background-color: red;
+}
+
+#board.dupword {
+	background-color: yellow;
+}
+
 .board5 {
 	grid-template-columns: repeat(5, 20%);
 }

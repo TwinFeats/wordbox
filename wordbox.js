@@ -136,6 +136,10 @@ function updateBoardSize(size) {
 
 function unpause(event) {
 	if (!isMobile || !event.isPrimary) {
+		playBad();
+		badPlay.pause();
+		playGood();
+		goodPlay.pause();
 		var pause = document.querySelector("#pause");
 		pause.classList.add("hidden");
 		playing = true;
@@ -222,7 +226,7 @@ function stopdrag(event) {
 	if (word.length >= minLen) {
 		if (!foundWords.includes(word)) {
 			if (words.includes(word.toLowerCase())) {
-				goodPlay.play();
+				playGood();
 				foundWords.push(word);
 				var score = scoreWord();
 				total += score;
@@ -231,21 +235,45 @@ function stopdrag(event) {
 				var totalhtml = document.getElementById("total");
 				totalhtml.innerHTML = total;
 			} else {
-				badPlay.play();
+				playBad();
 				var w = document.querySelector("#word");
 				w.innerHTML = word + " 0";
 			}
 		} else {
-			badPlay.play();
+			playBadDup();
 			var w = document.querySelector("#word");
 			w.innerHTML = word + " dup";
 		}
 	} else {
-		badPlay.play();
+		playBad();
 		var w = document.querySelector("#word");
 		w.innerHTML = word + " 0";
 	}
 	lastcube = null;
+}
+
+function blink(count, cssClass) {
+    document.getElementById("board").classList.toggle(cssClass);
+    setTimeout(function() {
+        if (--count > 0) {
+            blink(count, cssClass);
+        }
+    }, 250);
+}
+
+function playGood() {
+	goodPlay.play();
+	blink(3, "goodword");
+}
+
+function playBad() {
+	badPlay.play();
+	blink(3, "badword");
+}
+
+function playBadDup() {
+	badPlay.play();
+	blink(3, "dupword");
 }
 
 function canceldrag(event) {
