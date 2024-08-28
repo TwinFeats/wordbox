@@ -267,17 +267,14 @@ function blink(count, cssClass) {
 
 function playGood() {
 	goodPlay.play();
-	// blink(4, "goodword");
 }
 
 function playBad() {
 	badPlay.play();
-	// blink(4, "badword");
 }
 
 function playBadDup() {
 	badPlay.play();
-	// blink(4, "dupword");
 }
 
 function canceldrag(event) {

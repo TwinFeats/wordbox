@@ -104,7 +104,7 @@ button {
 }
 
 #board.goodword {
-	background-color: lightgreen;
+	background-color: #00ff00;
 }
 
 #board.badword {
