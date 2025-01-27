@@ -2,9 +2,6 @@
 <html>
 	<head>
 		<title>WordBox Redux</title>
-		<script src="words.js"></script>
-		<script src="jsrand.min.js"></script>
-		<script src="wordbox.js?v=2.0"></script>
 		<link rel="stylesheet" href="default.css?v=1.6.1">
 	</head>
 	<body>
@@ -65,8 +62,17 @@
 	    <audio id="badPlay">
 	      <source src="audio/alarmbeep.mp3"/>
 	    </audio>
+		<script src="words.js"></script>
+		<script src="words2.js"></script>
+		<script src="jsrand.min.js"></script>
+		<script src="wordbox.js?v=2.0"></script>
 		<script>
+			console.log(words.length+", "+words2.length);
+			words = new Set(words);
+			words = Array.from(words.union(new Set(words2)));
+			words.sort();
+			console.log(words.length);
 			init();
-		</script>
+		</script>		
 	</body>
 </html>
