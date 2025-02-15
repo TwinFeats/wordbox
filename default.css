@@ -289,3 +289,19 @@ button:disabled {
 
 
 }
+
+@media screen and (min-aspect-ratio: 2/3) {
+	#board {
+	  padding: 5vw 20vw 1vw 20vw;
+	}
+
+	#board > * {
+		font-size: calc(60vw / 5 / 2);
+	}
+
+	#board.board6 > * {
+		font-size: calc(60vw / 6 / 2);
+	}
+}
+
+
