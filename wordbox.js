@@ -27,8 +27,9 @@ function updateGame() {
 }
 
 function init(gameseed) {
+	try {
 	if (isMobile) {
-		document.getElementById("pause").firstElementChild.innerHTML = "Two-finger tap to unpause";
+		document.getElementById("pause").firstElementChild.innerHTML = "Tap to unpause";
 	} else {
 		document.getElementById("pause").firstElementChild.innerHTML = "Click to unpause";
 	}
@@ -101,6 +102,9 @@ function init(gameseed) {
 		document.getElementById("pausebutton").innerHTML = "Pause";
 		pause();
 	}
+	} catch (e) {
+			alert(e);
+		}
 }
 
 function updateBoardStraight() {
@@ -135,7 +139,7 @@ function updateBoardSize(size) {
 }
 
 function unpause(event) {
-	if (!isMobile || !event.isPrimary) {
+	// if (!isMobile || !event.isPrimary) {
 		playBad();
 		badPlay.pause();
 		playGood();
@@ -145,8 +149,8 @@ function unpause(event) {
 		playing = true;
 		lasttime = new Date().getTime();
 		startTimer();
-	}
-	event.preventDefault();
+	// }
+	// event.preventDefault();
 }
 
 function pause() {

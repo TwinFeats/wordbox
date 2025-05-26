@@ -75,6 +75,8 @@ button {
 	flex-wrap: wrap;
 	align-content: flex-start;
 	overflow-x: hidden;
+	overflow-y: auto;
+	height: 100vh;
 }
 
 #words > * > span {
@@ -206,6 +208,7 @@ button {
 	height: 100vh;
 	background-color: black;
 	box-sizing: border-box;
+	z-index: 1000;
 }
 
 #pause > * {
@@ -267,6 +270,7 @@ button:disabled {
 
 	body {
 		padding: 0;
+		overflow: hidden;
 	}
 
 	#board {

@@ -2,7 +2,8 @@
 <html>
 	<head>
 		<title>WordBox Redux</title>
-		<link rel="stylesheet" href="default.css?v=1.6.5">
+		<link rel="stylesheet" href="default.css?v=1.6.8">
+		<meta meta name="viewport" content="user-scalable=no" />
 	</head>
 	<body>
 		<div id="gamenumber"></div>
@@ -45,7 +46,9 @@
 				</div>
 			<div id="words"></div>
 		</div>
-		<div class="hidden" id="pause" onclick="unpause(event)"><div>Tap anywhere to unpause</div></div>
+		<div class="hidden" id="pause">
+			<button type="button" onclick="unpause()">Unpause</button>
+		</div>
 		<div id="confirm">
 			<div>
 				Quit game and start new game?
@@ -64,7 +67,7 @@
 	    </audio>
 		<script src="yawl.js"></script>
 		<script src="jsrand.min.js"></script>
-		<script src="wordbox.js?v=2.0"></script>
+		<script src="wordbox.js?v=2.2.2"></script>
 		<script>
 			init();
 		</script>		
