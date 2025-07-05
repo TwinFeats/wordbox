@@ -3,7 +3,7 @@
 }
 
 html, body {
-	overscroll-behavior: none;
+	overscroll-behavior: contain;
 	font-size: 18pt;
  }
 
@@ -68,15 +68,16 @@ button {
 }
 
 #words {
-	margin: .5em;
+	padding: .5em;
 	font-size: 25pt;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	align-content: flex-start;
-	overflow-x: hidden;
+	/* overflow-x: hidden;
 	overflow-y: auto;
-	height: 100vh;
+	height: 100vh; */
+	box-sizing: border-box;
 }
 
 #words > * > span {
@@ -269,8 +270,10 @@ button:disabled {
 	}
 
 	body {
+		margin: 0;
 		padding: 0;
-		overflow: hidden;
+		overflow: auto;
+		height: 100%;
 	}
 
 	#board {
