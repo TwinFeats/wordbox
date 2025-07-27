@@ -62,11 +62,13 @@ function restoreGame(savedGame) {
 }
 
 function init(gameseed) {
+	screen.orientation.lock("portrait");
+
 	goodPlay = document.getElementById("goodPlay");
 	badPlay = document.getElementById("badPlay");
 	lasttime = 0;
 	var savedGame = localStorage.getItem("savedGame");
-	if (savedGame) {
+	if (savedGame && savedGame.time > 0) {
 		restoreGame(savedGame);
 		return;
 	}
@@ -88,7 +90,6 @@ function init(gameseed) {
 	var totalhtml = document.getElementById("total");
 	totalhtml.innerHTML = gameState.total;
 	if (!gameseed) {
-		
 		var loc = window.location.search;
 		var idx = loc.lastIndexOf("game=");
 		if (idx >= 0) {
@@ -227,7 +228,7 @@ function newgame() {
 	gameState.playing = false;
 	pause();
 	gameState.rnd = new Srand();
-	gameState.seed = Math.floor(rnd.inRange(0, 1000000000));
+	gameState.seed = gameState.rnd.seed();
 	init(gameState.seed);
 }
 
@@ -504,6 +505,7 @@ function gameOver() {
 	list.innerHTML = text;
 	document.getElementById("endgame").classList.add("visible");
 	document.getElementById("pausebutton").innerHTML = "Words";
+	localStorage.setItem("savedGame", JSON.stringify(gameState));
 }
 
 function startTimer() {
@@ -517,6 +519,7 @@ function startTimer() {
 		timerCount = 0;
 	}
 	if (gameState.time < 0) {
+		gameState.time = 0;
 		gameOver();
 		return;
 	}
