@@ -62,8 +62,6 @@ function restoreGame(savedGame) {
 }
 
 function init(gameseed) {
-	screen.orientation.lock("portrait");
-
 	goodPlay = document.getElementById("goodPlay");
 	badPlay = document.getElementById("badPlay");
 	lasttime = 0;
@@ -182,6 +180,8 @@ function updateBoardSize(size) {
 }
 
 function unpause(event) {
+	// document.documentElement.requestFullscreen().then(() => {
+    //     screen.orientation.lock('portrait');
 	// if (!isMobile || !event.isPrimary) {
 		playBad();
 		badPlay.pause();
