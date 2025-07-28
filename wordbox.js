@@ -59,6 +59,9 @@ function restoreGame(savedGame) {
 	for (var i=0; i<gameState.foundWords.length;i++) {
 		addWord(gameState.foundWords[i], scoreWord(gameState.foundWords[i]));
 	}
+	if (gameState.gameover) {
+		gameOver();
+	}
 }
 
 function init(gameseed) {
