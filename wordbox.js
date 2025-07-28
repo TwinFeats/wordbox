@@ -26,15 +26,15 @@ var lasttime = 0;
 var timerCount = 0;
 
 function updateGame() {
-	// var game = '/wordbox/?game=' + gameState.options.size + "" + gameState.seed;
-	// if (isMobile) {
-	// 	history.replaceState(null, 'Wordbox Redux', game);
-	// }
-	// navigator.clipboard.writeText("https://kidjuice.com"+game);
+	var game = '/wordbox/?game=' + gameState.options.size + "" + gameState.seed;
+	if (isMobile) {
+		history.replaceState(null, 'Wordbox Redux', game);
+	}
+	navigator.clipboard.writeText("https://kidjuice.com"+game);
 }
 
 function restoreGame(savedGame) {
-	gameState = JSON.parse(savedGame);
+	gameState = savedGame;
 	gameState.playing = false;
 	pause();
 
@@ -71,10 +71,8 @@ function init(gameseed) {
 	var savedGame = localStorage.getItem("savedGame");
 	if (!gameseed && savedGame) {
 		let tempGame = JSON.parse(savedGame);
-		if (tempGame.time > 0) {
-			restoreGame(savedGame);
-			return;
-		}
+		restoreGame(tempGame);
+		return;
 	}
 	try {
 	gameState.gameover = false;
