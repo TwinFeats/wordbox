@@ -26,11 +26,11 @@ var lasttime = 0;
 var timerCount = 0;
 
 function updateGame() {
-	var game = '/wordbox/?game=' + gameState.options.size + "" + gameState.seed;
-	if (isMobile) {
-		history.replaceState(null, 'Wordbox Redux', game);
-	}
-	navigator.clipboard.writeText("https://kidjuice.com"+game);
+	// var game = '/wordbox/?game=' + gameState.options.size + "" + gameState.seed;
+	// if (isMobile) {
+	// 	history.replaceState(null, 'Wordbox Redux', game);
+	// }
+	// navigator.clipboard.writeText("https://kidjuice.com"+game);
 }
 
 function restoreGame(savedGame) {
@@ -69,9 +69,12 @@ function init(gameseed) {
 	badPlay = document.getElementById("badPlay");
 	lasttime = 0;
 	var savedGame = localStorage.getItem("savedGame");
-	if (savedGame && (savedGame.time > 0 || savedGame.seed == gameseed)) {
-		restoreGame(savedGame);
-		return;
+	if (!gameseed && savedGame) {
+		let tempGame = JSON.parse(savedGame);
+		if (tempGame.time > 0) {
+			restoreGame(savedGame);
+			return;
+		}
 	}
 	try {
 	gameState.gameover = false;
@@ -183,9 +186,6 @@ function updateBoardSize(size) {
 }
 
 function unpause(event) {
-	// document.documentElement.requestFullscreen().then(() => {
-    //     screen.orientation.lock('portrait');
-	// if (!isMobile || !event.isPrimary) {
 		playBad();
 		badPlay.pause();
 		playGood();
@@ -196,8 +196,6 @@ function unpause(event) {
 		lasttime = new Date().getTime();
 		timerCount = 0;
 		startTimer();
-	// }
-	// event.preventDefault();
 }
 
 function pause() {
