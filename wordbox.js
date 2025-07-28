@@ -28,7 +28,7 @@ var timerCount = 0;
 function updateGame() {
 	var game = '/wordbox/?game=' + gameState.options.size + "" + gameState.seed;
 	if (isMobile) {
-//		history.replaceState(null, 'Wordbox Redux', game);
+		history.replaceState(null, 'Wordbox Redux', game);
 	}
 	navigator.clipboard.writeText("https://kidjuice.com"+game);
 }
@@ -66,7 +66,7 @@ function init(gameseed) {
 	badPlay = document.getElementById("badPlay");
 	lasttime = 0;
 	var savedGame = localStorage.getItem("savedGame");
-	if (savedGame && savedGame.time > 0) {
+	if (savedGame && (savedGame.time > 0 || savedGame.seed == gameseed)) {
 		restoreGame(savedGame);
 		return;
 	}
@@ -227,8 +227,8 @@ function newgame() {
 	gameState.gameover = false;
 	gameState.playing = false;
 	pause();
-	gameState.rnd = new Srand();
-	gameState.seed = gameState.rnd.seed();
+	rnd = new Srand();
+	gameState.seed = rnd.seed();
 	init(gameState.seed);
 }
 
