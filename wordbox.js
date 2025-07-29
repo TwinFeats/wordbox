@@ -24,11 +24,16 @@ var goodPlay;
 var badPlay;
 var lasttime = 0;
 var timerCount = 0;
+var localTest = null;
 
 function updateGame() {
 	var game = '/wordbox/?game=' + gameState.options.size + "" + gameState.seed;
 	if (isMobile) {
-		history.replaceState(null, 'Wordbox Redux', game);
+		try {
+			history.replaceState(null, 'Wordbox Redux', game);
+		} catch (e) {
+			console.log(e);
+		}
 	}
 	navigator.clipboard.writeText("https://kidjuice.com"+game);
 }
@@ -68,13 +73,33 @@ function init(gameseed) {
 	goodPlay = document.getElementById("goodPlay");
 	badPlay = document.getElementById("badPlay");
 	lasttime = 0;
-	var savedGame = localStorage.getItem("savedGame");
-	if (!gameseed && savedGame) {
-		let tempGame = JSON.parse(savedGame);
-		restoreGame(tempGame);
-		return;
-	}
 	try {
+	document.getElementById("newgame").disabled = false;
+	document.querySelector("#timer").innerHTML = convertTime();
+	document.querySelector("#words").innerHTML = "";
+	var totalhtml = document.getElementById("total");
+	totalhtml.innerHTML = gameState.total;
+	if (!gameseed) {
+		var loc = window.location.search;
+		var idx = loc.lastIndexOf("game=");
+		if (idx >= 0) {
+			gameseed = parseInt(loc.substring(idx + 6));
+			console.log("gameseed="+gameseed);
+			var savedGame = localStorage.getItem("savedGame");
+			console.log(savedGame);
+			if (savedGame) {
+				let tempGame = JSON.parse(savedGame);
+				if (gameseed == tempGame.seed) {
+					restoreGame(tempGame);
+					return;
+				}
+			}
+			gameState.options.size = parseInt(loc.substring(idx + 5, idx + 6));
+		} else {
+			updateBoardSize(5);
+		}
+	}
+
 	gameState.gameover = false;
 	gameState.word = "";
 	gameState.solution = {};
@@ -86,21 +111,6 @@ function init(gameseed) {
 	gameState.total = 0;
 	gameState.time = 300000;
 	gameState.letters = "";
-	document.getElementById("newgame").disabled = false;
-	document.querySelector("#timer").innerHTML = convertTime();
-	document.querySelector("#words").innerHTML = "";
-	var totalhtml = document.getElementById("total");
-	totalhtml.innerHTML = gameState.total;
-	if (!gameseed) {
-		var loc = window.location.search;
-		var idx = loc.lastIndexOf("game=");
-		if (idx >= 0) {
-			gameseed = parseInt(loc.substring(idx + 6));
-			gameState.options.size = parseInt(loc.substring(idx + 5, idx + 6));
-		} else {
-			updateBoardSize(5);
-		}
-	}
 
 	if (gameState.options.size == 6) {
 		gameState.time = 360000;
