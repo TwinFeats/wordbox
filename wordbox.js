@@ -27,7 +27,7 @@ var timerCount = 0;
 var localTest = null;
 
 function updateGame() {
-	var game = '/wordbox/?game=' + gameState.options.size + "" + gameState.seed;
+	var game = `/wordbox/?game=${gameState.options.size}${gameState.unlimitedTime?'1':'0'}${gameState.seed}`;
 	if (isMobile) {
 		try {
 			history.replaceState(null, 'Wordbox Redux', game);
@@ -61,6 +61,8 @@ function restoreGame(savedGame) {
 		cubeelements[i].classList.add("orientation" + gameState.orientations[i]);
 	}
 	updateBoardSize(gameState.options.size);
+	document.getElementById("unlimited").checked = gameState.unlimitedTime;
+
 	for (var i=0; i<gameState.foundWords.length;i++) {
 		addWord(gameState.foundWords[i], scoreWord(gameState.foundWords[i]));
 	}
@@ -83,10 +85,8 @@ function init(gameseed) {
 		var loc = window.location.search;
 		var idx = loc.lastIndexOf("game=");
 		if (idx >= 0) {
-			gameseed = parseInt(loc.substring(idx + 6));
-			console.log("gameseed="+gameseed);
+			gameseed = parseInt(loc.substring(idx + 7));
 			var savedGame = localStorage.getItem("savedGame");
-			console.log(savedGame);
 			if (savedGame) {
 				let tempGame = JSON.parse(savedGame);
 				if (gameseed == tempGame.seed) {
@@ -95,6 +95,8 @@ function init(gameseed) {
 				}
 			}
 			gameState.options.size = parseInt(loc.substring(idx + 5, idx + 6));
+			gameState.unlimitedTime = 1==parseInt(loc.substring(idx + 6, idx + 7));
+			document.getElementById("unlimtedTime").checked = gameState.unlimitedTime;
 		} else {
 			updateBoardSize(5);
 		}

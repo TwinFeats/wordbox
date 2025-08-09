@@ -47,12 +47,12 @@ body {
 
 button, input[type="checkbox"] {
 	margin-top: .5em;
-	margin-left: 2ch;
+	margin-left: .5ch;
 	height: 1.5em;
 	border-radius: .25em;
 	background-color: crimson;
 	border-color: red;
-	padding: 0 .3em;
+	padding: 0 .2em;
 	color: white;
 	border-style: outset;
 	border-width: .2em;
