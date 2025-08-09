@@ -45,7 +45,7 @@ body {
 	text-align: center;
 }
 
-button {
+button, input[type="checkbox"] {
 	margin-top: .5em;
 	margin-left: 2ch;
 	height: 1.5em;
@@ -56,6 +56,11 @@ button {
 	color: white;
 	border-style: outset;
 	border-width: .2em;
+}
+
+input[type="checkbox"] {
+	width: .75rem;
+	height: .75rem;
 }
 
 .selected {
@@ -175,7 +180,7 @@ button {
 	transform: translate(-50%, -50%) rotate(0deg) !important;
 }
 
-#confirm {
+#confirm, #confirmEnd {
 	display: none;
 	position: absolute;
 	top: 0;
@@ -188,7 +193,7 @@ button {
 	z-index: 10;
 }
 
-#confirm button {
+#confirm button, #confirmEnd button {
 	margin-left: 1ch;
 	margin-right: 1ch;
 }

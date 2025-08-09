@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>WordBox Redux</title>
-		<link rel="stylesheet" href="default.css?v=1.6.15">
+		<link rel="stylesheet" href="default.css?v=1.6.16">
 		<meta meta name="viewport" content="user-scalable=no" />
 	</head>
 	<body>
@@ -38,10 +38,12 @@
 			<div id="timeline"><div><span id="total">0</span> <span id="timer">5:00</span>
 				<button id="pausebutton" type="button" onclick="pause()">Pause</button>
 				<div class="row">
-					<button id="straight" type="button" onclick="updateBoardStraight()">-</button>
-					<button id="board5" type="button" onclick="updateBoardSize(5)">5x5</button>
-					<button id="board6" type="button" onclick="updateBoardSize(6)">6x6</button>
+					<input class="gameoption" type="checkbox" id="unlimited" name="unlimited" onclick="updateUnlimitedTime(this)"/> <label for="unlimited">Unltd</label>
+					<button class="gameoption" id="straight" type="button" onclick="updateBoardStraight()">-</button>
+					<button class="gameoption" id="board5" type="button" onclick="updateBoardSize(5)">5x5</button>
+					<button class="gameoption" id="board6" type="button" onclick="updateBoardSize(6)">6x6</button>
 					<button id="newgame" type="button" onclick="newgame()">New</button></div>
+					<button id="endGame" type="button" onclick="endGame()">End</button></div>
 					<div id="word"></div></div>
 				</div>
 			<div id="words"></div>
@@ -58,6 +60,15 @@
 				</div>
 			</div>
 		</div>
+		<div id="confirmEnd">
+			<div>
+				End game?
+				<div>
+					<button type="button" onclick="doEndGame()">Yes</button>
+					<button type="button" onclick="closeConfirmEnd()">No</button>
+				</div>
+			</div>
+		</div>
 		<div id="endgame" onpointerdown="hide(event)"></div>
 	    <audio id="goodPlay">
 	      <source src="audio/xylophone.mp3"/>
@@ -67,7 +78,7 @@
 	    </audio>
 		<script src="yawl.js"></script>
 		<script src="jsrand.min.js"></script>
-		<script src="wordbox.js?v=2.2.20"></script>
+		<script src="wordbox.js?v=2.2.21"></script>
 		<script>
 			init();
 		</script>		

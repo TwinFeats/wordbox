@@ -109,11 +109,10 @@ function init(gameseed) {
 	gameState.foundWords = [];
 	gameState.playing = false;
 	gameState.total = 0;
-	gameState.time = 300000;
+	updateTime();
 	gameState.letters = "";
 
 	if (gameState.options.size == 6) {
-		gameState.time = 360000;
 		gameState.minLen = 5;
 		document.getElementById("board5").classList.remove("selected");
 		document.getElementById("board6").classList.add("selected");
@@ -179,7 +178,24 @@ function updateBoardStraight() {
 function hide(event) {
 	if (!isMobile || !event.isPrimary) {
 		document.getElementById("endgame").classList.remove("visible");
+		Array.from(document.getElementsByClassName("gameoption")).forEach(item => {
+			item.disabled = false;
+		});
 	}
+}
+
+function updateUnlimitedTime(cb) {
+	gameState.unlimitedTime = cb.checked;
+	updateTime()
+}
+
+function updateTime() {
+	if (gameState.unlimitedTime) {
+		gameState.time = 0;
+	} else {
+		gameState.time = gameState.options.size * 60 * 1000;
+	}
+	document.getElementById('timer').innerHTML = convertTime();
 }
 
 function updateBoardSize(size) {
@@ -191,19 +207,23 @@ function updateBoardSize(size) {
 		document.getElementById("board5").classList.add("selected");
 		document.getElementById("board6").classList.remove("selected");
 	}
+	updateTime();
 }
 
 function unpause(event) {
-		playBad();
-		badPlay.pause();
-		playGood();
-		goodPlay.pause();
-		var pause = document.querySelector("#pause");
-		pause.classList.add("hidden");
-		gameState.playing = true;
-		lasttime = new Date().getTime();
-		timerCount = 0;
-		startTimer();
+	Array.from(document.getElementsByClassName("gameoption")).forEach(item => {
+		item.disabled = true;
+	});
+	playBad();
+	badPlay.pause();
+	playGood();
+	goodPlay.pause();
+	var pause = document.querySelector("#pause");
+	pause.classList.add("hidden");
+	gameState.playing = true;
+	lasttime = new Date().getTime();
+	timerCount = 0;
+	startTimer();
 }
 
 function pause() {
@@ -219,11 +239,32 @@ function pause() {
 function doNewGame() {
 	closeConfirm();
 	gameState.playing = false;
+	Array.from(document.getElementsByClassName("gameoption")).forEach(item => {
+		item.disabled = false;
+	});
 	newgame();
 }
 
 function closeConfirm() {
 	document.getElementById('confirm').classList.remove('show');
+}
+
+function closeConfirmEnd() {
+	document.getElementById('confirmEnd').classList.remove('show');
+	gameState.playing = true;
+}
+
+function endGame() {
+	if (gameState.playing) {
+		gameState.playing = false;
+		document.getElementById('confirmEnd').classList.add('show');
+		return;
+	}
+}
+
+function doEndGame() {
+	closeConfirmEnd();
+	gameOver();
 }
 
 function newgame() {
@@ -522,7 +563,11 @@ function startTimer() {
 	var now = new Date().getTime();
 	var diff = now - lasttime;
 	lasttime = now;
-	gameState.time -= diff;
+	if (!gameState.unlimitedTime) {
+		gameState.time -= diff;
+	} else {
+		gameState.time += diff;
+	}
 	if (++timerCount >= 10) {
 		localStorage.setItem("savedGame", JSON.stringify(gameState));
 		timerCount = 0;
@@ -532,8 +577,8 @@ function startTimer() {
 		gameOver();
 		return;
 	}
-
 	document.getElementById('timer').innerHTML = convertTime();
+
 	setTimeout(startTimer, 100);
 }
 
