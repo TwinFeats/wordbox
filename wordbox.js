@@ -96,7 +96,7 @@ function init(gameseed) {
 			}
 			gameState.options.size = parseInt(loc.substring(idx + 5, idx + 6));
 			gameState.unlimitedTime = 1==parseInt(loc.substring(idx + 6, idx + 7));
-			document.getElementById("unlimtedTime").checked = gameState.unlimitedTime;
+			document.getElementById("unlimited").checked = gameState.unlimitedTime;
 		} else {
 			updateBoardSize(5);
 		}
