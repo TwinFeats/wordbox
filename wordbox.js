@@ -16,6 +16,7 @@ var gameState = {
 		size: 5,
 		random: true
 	},
+	unlimitedTime: 0
 };
 
 var isMobile = navigator.maxTouchPoints > 1;
@@ -46,6 +47,7 @@ function restoreGame(savedGame) {
 	initBoard();
 
 	//reinit appropriately here
+	document.getElementById('timer').innerHTML = convertTime();
 	document.getElementById("newgame").disabled = false;
 	document.querySelector("#timer").innerHTML = convertTime();
 	document.querySelector("#words").innerHTML = "";
@@ -79,6 +81,7 @@ function init(gameseed) {
 	document.getElementById("newgame").disabled = false;
 	document.querySelector("#timer").innerHTML = convertTime();
 	document.querySelector("#words").innerHTML = "";
+	gameState.total = 0;
 	var totalhtml = document.getElementById("total");
 	totalhtml.innerHTML = gameState.total;
 	if (!gameseed) {
@@ -110,7 +113,6 @@ function init(gameseed) {
 	gameState.lastcube = null;
 	gameState.foundWords = [];
 	gameState.playing = false;
-	gameState.total = 0;
 	updateTime();
 	gameState.letters = "";
 
