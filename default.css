@@ -136,7 +136,7 @@ input[type="checkbox"] {
 	border-radius: .2em;
 	box-sizing: border-box;
 	color: white;
-	font-size: calc(30vw / 6 / 2);
+	font-size: calc(30vw / 12);
 	border: .1em outset;	
 	position: relative;
 
@@ -296,11 +296,11 @@ button:disabled {
 	}
 
 	#board > * {
-		font-size: calc(90vw / 7 / 2);
+		font-size: calc(90vw / 13);
 	}
 
 	#board.board6 > * {
-		font-size: calc(90vw / 8 / 2);
+		font-size: calc(90vw / 14);
 	}
 
 	#endgame {
