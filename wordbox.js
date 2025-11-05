@@ -549,7 +549,7 @@ function gameOver() {
 	gameState.playing = false;
 	gameState.gameover = true;
 	var list = document.getElementById("endgame");
-	var text = "";
+	var text = '<button type="button" onclick="hide(event)">Close</button>';
 	for (i = 0; i < gameState.wordlist.length; i++) {
 		if (gameState.foundWords.includes(gameState.wordlist[i])) {
 			text += "<div class='found'>";
