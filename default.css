@@ -241,7 +241,7 @@ input[type="checkbox"] {
 	overflow: auto;
 	background-color: black;
 	color: #ffff80;
-	font-size: 25pt;
+	font-size: 15pt;
 	flex-wrap: wrap;
 }
 
@@ -292,24 +292,14 @@ button:disabled {
 	}
 
 	#board > * {
-		font-size: calc(90vw / 5 / 2);
+		font-size: calc(90vw / 7 / 2);
 	}
 
 	#board.board6 > * {
-		font-size: calc(90vw / 6 / 2);
+		font-size: calc(90vw / 8 / 2);
 	}
 
-
-}
-
-@media screen and (min-aspect-ratio: 2/3) {
-	#board > * {
-		font-size: calc(60vh / 5 / 2);
-	}
-
-	#board.board6 > * {
-		font-size: calc(60vh / 6 / 2);
+	#endgame {
+		font-size: 25pt;
 	}
 }
-
-
