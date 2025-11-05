@@ -28,7 +28,7 @@ var timerCount = 0;
 var localTest = null;
 
 function updateGame() {
-	var game = `http://cricketsongmedia.com/kidjuice/wordbox/?game=${gameState.options.size}${gameState.unlimitedTime?'1':'0'}${gameState.seed}`;
+	var game = `/kidjuice/wordbox/?game=${gameState.options.size}${gameState.unlimitedTime?'1':'0'}${gameState.seed}`;
 	if (isMobile) {
 		try {
 			history.replaceState(null, 'Wordbox Redux', game);
@@ -37,7 +37,7 @@ function updateGame() {
 		}
 	}
 	if (navigator?.clipboard) {
-		navigator.clipboard.writeText(game);
+		navigator.clipboard.writeText("http://cricketsongmedia.com"+game);
 	}
 }
 
