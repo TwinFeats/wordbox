@@ -182,12 +182,10 @@ function updateBoardStraight() {
 }
 
 function hide(event) {
-	if (!isMobile || !event.isPrimary) {
-		document.getElementById("endgame").classList.remove("visible");
-		Array.from(document.getElementsByClassName("gameoption")).forEach(item => {
-			item.disabled = false;
-		});
-	}
+	document.getElementById("endgame").classList.remove("visible");
+	Array.from(document.getElementsByClassName("gameoption")).forEach(item => {
+		item.disabled = false;
+	});
 }
 
 function updateUnlimitedTime(cb) {
