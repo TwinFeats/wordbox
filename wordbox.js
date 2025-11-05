@@ -36,7 +36,9 @@ function updateGame() {
 			console.log(e);
 		}
 	}
-	navigator.clipboard.writeText("https://kidjuice.com"+game);
+	if (navigator?.clicpboard) {
+		navigator.clipboard.writeText("http://cricketsongmedia.com/kidjuice"+game);
+	}
 }
 
 function restoreGame(savedGame) {
